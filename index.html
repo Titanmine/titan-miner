@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Titan Miner - Boutique</title>
+</head>
+<body>
+    <h1>Bienvenue dans la Boutique Titan Miner</h1>
+    <p>Cliquez ci-dessous pour acheter votre machine :</p>
+    
+    <button onclick="payer()">Acheter Machine (5000 XOF)</button>
+
+    <script>
+        async function payer() {
+            try {
+                // Appel vers votre fonction Netlify que vous avez créée
+                const response = await fetch('/.netlify/functions/create-payment', {
+                    method: 'POST',
+                    body: JSON.stringify({ amount: 5000 })
+                });
+                
+                const data = await response.json();
+                
+                if (data.payment_url) {
+                    window.location.href = data.payment_url; // Redirection vers PayTech
+                } else {
+                    alert("Erreur : " + JSON.stringify(data));
+                }
+            } catch (err) {
+                alert("Erreur de connexion au serveur.");
+            }
+        }
+    </script>
+</body>
+</html>
